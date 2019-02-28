@@ -105,7 +105,7 @@ function isEmpty(value: any): any {
   return value === null || value === undefined;
 }
 
-export default function parser(query: string[]) {
+export function parser(query: string[]) {
   let search: ISelectQueryInput = {
     where: parseFilter(query)!
   };
