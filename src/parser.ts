@@ -1,6 +1,6 @@
 import {IOrderBy, ISelectQueryInput, IWhereInput} from "./interfaces";
 
-import {AND, ASC, DESC, OP_EQ} from "./consts";
+import {AND, ASC, DESC, OP_EQ, COUNT_COLUMN} from "./consts";
 
 const COUNT_PARAM = 'count';
 const SORT_PARAM = 'sort';
@@ -110,12 +110,15 @@ export function parser(query: string[]) {
     where: parseFilter(query)!
   };
 
-  if (query[COUNT_PARAM] !== true && query[COUNT_PARAM] !== 'true') {
+  let countOnly = query[COUNT_PARAM] !== true && query[COUNT_PARAM] !== 'true';
+  if (countOnly) {
     search = {
       ...search,
       orderBy: parseSort(query),
       ...parsePaging(query)
     };
+  } else {
+    search.columns = [COUNT_COLUMN]
   }
 
   return search;
