@@ -84,20 +84,18 @@ function parsePaging(query: any): {limit?: number, offset?: number} {
   let res: any = {};
   if (!isEmpty(offset)) {
     res.offset = parseInt(offset);
+    if (isNaN(res.offset)) {
+      throw new Error(`Invalid offset param ${offset}`);
+    }
   }
 
   if (!isEmpty(limit)) {
     res.limit = parseInt(limit);
+    if (isNaN(res.limit)) {
+      throw new Error(`Invalid limit param ${limit}`);
+    }
   }
-
-  if (isNaN(res.offset)) {
-    throw new Error(`Invalid offset param ${offset}`);
-  }
-
-  if (isNaN(res.limit)) {
-    throw new Error(`Invalid limit param ${limit}`);
-  }
-
+ 
   return res;
 }
 
