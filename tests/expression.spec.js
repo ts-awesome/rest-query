@@ -1,4 +1,5 @@
-const {parseExpression, tokenizer, NOT_OP, REGEX_OP, AND_OP, OR_OP} = require('../dist/tokenizer');
+const {parseExpression, tokenizer} = require('../dist/tokenizer');
+const {NOT_OP, REGEX_OP, AND_OP, OR_OP} = require('@viatsyshyn/ts-simple-query');
 
 describe('expression parser', () => {
 

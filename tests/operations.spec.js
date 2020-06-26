@@ -1,4 +1,5 @@
-const {parseOperation, tokenizer, NEQ_OP, GTE_OP, GT_OP, LT_OP, LTE_OP, REGEX_OP, REF_OP} = require('../dist/tokenizer');
+const {parseOperation, tokenizer} = require('../dist/tokenizer');
+const {NEQ_OP, GTE_OP, GT_OP, LT_OP, LTE_OP, REGEX_OP, REF_OP} = require('@viatsyshyn/ts-simple-query');
 
 describe('operation parser', () => {
 
