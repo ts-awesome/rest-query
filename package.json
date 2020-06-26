@@ -1,15 +1,16 @@
 {
   "name": "@viatsyshyn/ts-rest-query",
-  "version": "0.1.1",
+  "version": "0.0.0",
   "description": "TypeScript REST Query parser",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && cp src/*.d.ts dist/src/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "jest --env=node"
   },
   "devDependencies": {
-    "typescript": "^3.3.3"
+    "jest": "^26.1.0",
+    "typescript": "^3.9.5"
   },
   "author": "Volodymyr Iatsyshyn <viatsyshyn@gmail.com>",
   "license": "ISC"

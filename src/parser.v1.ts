@@ -1,11 +1,66 @@
-import {IOrderBy, ISelectQueryInput, IWhereInput} from "./interfaces";
+export const AND = 'AND';
+export const OR = 'OR';
 
-import {AND, ASC, DESC, OP_EQ, COUNT_COLUMN} from "./consts";
+export type FilterMode = typeof AND | typeof OR;
 
-const COUNT_PARAM = 'count';
-const SORT_PARAM = 'sort';
-const OFFSET_PARAM = 'offset';
-const LIMIT_PARAM = 'limit';
+export const ASC = 'ASC';
+export const DESC = 'DESC';
+
+export type Order = typeof ASC | typeof DESC;
+
+export const COUNT_COLUMN = 'COUNT(*)';
+
+//WhereInput operations
+export const OP_EQ = '=';
+export const OP_NEQ = '!=';
+export const OP_LT = '<';
+export const OP_LTE = '<=';
+export const OP_GT = '>';
+export const OP_GTE = '>=';
+export const OP_SEARSH = '~';
+export const OP_NOT_SEARSH = '!~';
+export const OP_INCLUDES = 'IN';
+export const OP_NOT_INCLUDES = '!IN';
+
+export type Operation = typeof OP_EQ
+  | typeof OP_NEQ
+  | typeof OP_LT
+  | typeof OP_LTE
+  | typeof OP_GT
+  | typeof OP_GTE
+  | typeof OP_SEARSH
+  | typeof OP_NOT_SEARSH
+  | typeof OP_INCLUDES
+  | typeof OP_NOT_INCLUDES
+
+
+export interface ISelectQueryInput {
+  columns?: string[];
+  where?: IWhereInput;
+  orderBy?: IOrderBy;
+  offset?: number;
+  limit?: number;
+}
+
+export interface IWhereInput {
+  filter: {
+    [column: string]: IConditions;
+  };
+  op: FilterMode;
+}
+
+export type IConditions = {
+  [P in keyof Operation]?: any;
+}
+
+export interface IOrderBy {
+  [column: string]: Order;
+}
+
+export const COUNT_PARAM = 'count';
+export const SORT_PARAM = 'sort';
+export const OFFSET_PARAM = 'offset';
+export const LIMIT_PARAM = 'limit';
 
 const NOT_FILTER_PARAMS = [
   COUNT_PARAM,
@@ -95,7 +150,7 @@ function parsePaging(query: any): {limit?: number, offset?: number} {
       throw new Error(`Invalid limit param ${limit}`);
     }
   }
- 
+
   return res;
 }
 
