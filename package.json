@@ -13,5 +13,8 @@
     "typescript": "^3.9.5"
   },
   "author": "Volodymyr Iatsyshyn <viatsyshyn@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@viatsyshyn/ts-simple-query": "^0.1.0"
+  }
 }

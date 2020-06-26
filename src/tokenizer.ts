@@ -1,14 +1,4 @@
-export const REF_OP = '$ref';
-export const AND_OP = '$and';
-export const OR_OP = '$or';
-export const NOT_OP = '$not';
-export const EQ_OP = '$eq';
-export const NEQ_OP = '$neq';
-export const GT_OP = '$qt';
-export const GTE_OP = '$qte';
-export const LT_OP = '$lt';
-export const LTE_OP = '$lte';
-export const REGEX_OP = '$regex';
+import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, REGEX_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP} from '@viatsyshyn/ts-simple-query';
 
 interface ITokenizer {
   readonly current: string;

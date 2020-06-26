@@ -1,6 +1,9 @@
 import {parseExpression, tokenizer, space, parseIdentifier} from "./tokenizer";
 
-import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, REGEX_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP} from './tokenizer';
+import {ISimpleQuery} from "@viatsyshyn/ts-simple-query";
+export {ISimpleQuery}
+
+import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, REGEX_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP} from '@viatsyshyn/ts-simple-query';
 export {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, REGEX_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP};
 
 export const Q_PARAM = 'q';
@@ -18,24 +21,6 @@ export interface IQuerySource {
   [LIMIT_PARAM]?: string;
   [OFFSET_PARAM]?: string;
   [ORDER_BY_PARAM]?: string;
-}
-
-export interface IPropertyValueQuery {
-  [property: string]: string | boolean | number | {[REF_OP]: string};
-}
-
-export interface ISimpleQuery {
-  [EQ_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [NEQ_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [GT_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [GTE_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [GTE_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [LT_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [LTE_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [REGEX_OP]?: ISimpleQuery | IPropertyValueQuery;
-  [AND_OP]?: (ISimpleQuery | IPropertyValueQuery)[];
-  [OR_OP]?: (ISimpleQuery | IPropertyValueQuery)[];
-  [NOT_OP]?: ISimpleQuery | IPropertyValueQuery;
 }
 
 export function parseQuery(input: string = ''): ISimpleQuery | undefined {
