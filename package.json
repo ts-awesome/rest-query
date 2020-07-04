@@ -9,8 +9,14 @@
     "test": "jest --env=node"
   },
   "devDependencies": {
+    "@viatsyshyn/ts-rest": "^0.2.0",
+    "inversify": "^5.0.0",
     "jest": "^26.1.0",
     "typescript": "^3.9.5"
+  },
+  "peerDependencies": {
+    "@viatsyshyn/ts-rest": "^0.2.0",
+    "inversify": "^5.0.0"
   },
   "author": "Volodymyr Iatsyshyn <viatsyshyn@gmail.com>",
   "license": "ISC",
