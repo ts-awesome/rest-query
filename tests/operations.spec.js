@@ -1,5 +1,5 @@
 const {parseOperation, tokenizer} = require('../dist/tokenizer');
-const {NEQ_OP, GTE_OP, GT_OP, LT_OP, LTE_OP, REGEX_OP, REF_OP} = require('@viatsyshyn/ts-simple-query');
+const {NEQ_OP, GTE_OP, GT_OP, LT_OP, LTE_OP, LIKE_OP, REF_OP} = require('@viatsyshyn/ts-simple-query');
 
 describe('operation parser', () => {
 
@@ -45,8 +45,8 @@ describe('operation parser', () => {
     expect(parseOperation(tokenizer('a<=b'))).toStrictEqual({[LTE_OP]: {a: {[REF_OP]: 'b'}}});
   });
 
-  it('regex', async () => {
-    expect(parseOperation(tokenizer('a~"1"'))).toStrictEqual({[REGEX_OP]: {a: '1'}});
-    expect(parseOperation(tokenizer('a~b'))).toStrictEqual({[REGEX_OP]: {a: {[REF_OP]: 'b'}}});
+  it('like', async () => {
+    expect(parseOperation(tokenizer('a~"1"'))).toStrictEqual({[LIKE_OP]: {a: '1'}});
+    expect(parseOperation(tokenizer('a~b'))).toStrictEqual({[LIKE_OP]: {a: {[REF_OP]: 'b'}}});
   });
 });

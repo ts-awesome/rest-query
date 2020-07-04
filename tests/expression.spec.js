@@ -1,5 +1,5 @@
 const {parseExpression, tokenizer} = require('../dist/tokenizer');
-const {NOT_OP, REGEX_OP, AND_OP, OR_OP} = require('@viatsyshyn/ts-simple-query');
+const {NOT_OP, LIKE_OP, AND_OP, OR_OP} = require('@viatsyshyn/ts-simple-query');
 
 describe('expression parser', () => {
 
@@ -8,7 +8,7 @@ describe('expression parser', () => {
     const expr = '(!(a~"1"))';
     expect(parseExpression(tokenizer(expr))).toStrictEqual({
       [NOT_OP]: {
-        [REGEX_OP]: {
+        [LIKE_OP]: {
           a: '1'
         }
       }
@@ -20,7 +20,7 @@ describe('expression parser', () => {
     const expr = '((a ~ "1") && (b = 2))';
     expect(parseExpression(tokenizer(expr))).toStrictEqual({
       [AND_OP]: [
-        {[REGEX_OP]: {
+        {[LIKE_OP]: {
           a: '1'
         }},
         {b: 2}
@@ -33,7 +33,7 @@ describe('expression parser', () => {
     const expr = '((a ~ "1") && (b = 2) && c && (d = 3))';
     expect(parseExpression(tokenizer(expr))).toStrictEqual({
       [AND_OP]: [
-        {[REGEX_OP]: {
+        {[LIKE_OP]: {
           a: '1'
         }},
         {b: 2},
@@ -48,7 +48,7 @@ describe('expression parser', () => {
     const expr = '((a ~ "1") || (b = 2))';
     expect(parseExpression(tokenizer(expr))).toStrictEqual({
       [OR_OP]: [
-        {[REGEX_OP]: {
+        {[LIKE_OP]: {
           a: '1'
         }},
         {b: 2}
@@ -61,7 +61,7 @@ describe('expression parser', () => {
     const expr = '((a ~ "1") || (b = 2) || !c || (d = 3))';
     expect(parseExpression(tokenizer(expr))).toStrictEqual({
       [OR_OP]: [
-        {[REGEX_OP]: {
+        {[LIKE_OP]: {
           a: '1'
         }},
         {b: 2},
@@ -76,7 +76,7 @@ describe('expression parser', () => {
     const expr = '((a ~ "1") || ((b = 2) && !c) || (d = 3))';
     expect(parseExpression(tokenizer(expr))).toStrictEqual({
       [OR_OP]: [
-        {[REGEX_OP]: {
+        {[LIKE_OP]: {
           a: '1'
         }},
         {[AND_OP]: [

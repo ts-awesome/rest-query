@@ -3,8 +3,8 @@ import {parseExpression, tokenizer, space, parseIdentifier} from "./tokenizer";
 import {ISimpleQuery} from "@viatsyshyn/ts-simple-query";
 export {ISimpleQuery}
 
-import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, REGEX_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP} from '@viatsyshyn/ts-simple-query';
-export {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, REGEX_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP};
+import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP} from '@viatsyshyn/ts-simple-query';
+export {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP};
 
 export const Q_PARAM = 'q';
 export const COUNT_PARAM = 'count';
