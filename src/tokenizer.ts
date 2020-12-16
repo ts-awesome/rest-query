@@ -86,7 +86,7 @@ export function parseIdentifier(tokenizer: ITokenizer): string {
 }
 
 function isString(tokenizer: ITokenizer): boolean {
-  return tokenizer.match('"');
+  return tokenizer.match('"') || tokenizer.match("'");
 }
 
 export function parseString(tokenizer: ITokenizer): string {
@@ -94,8 +94,9 @@ export function parseString(tokenizer: ITokenizer): string {
     throw tokenizer.error('String expected to start with ".');
   }
   const start = tokenizer.index;
+  const quote = tokenizer.current;
   tokenizer.next();
-  while (!tokenizer.match('"')) {
+  while (!tokenizer.match(quote)) {
     if (tokenizer.match("\\")) {
       tokenizer.next();
     }
@@ -103,7 +104,14 @@ export function parseString(tokenizer: ITokenizer): string {
   }
 
   tokenizer.next();
-  return JSON.parse(tokenizer.since(start));
+  let str = tokenizer.since(start);
+  if (quote === "'") {
+    str = str
+      .replace(/"/g, '\\"')
+      .replace(/\\'/g, "'");
+    str = '"' + str.substring(1, str.length - 1) + '"';
+  }
+  return JSON.parse(str);
 }
 
 function isBoolean(tokenizer: ITokenizer): boolean {
