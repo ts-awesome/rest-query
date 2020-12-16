@@ -1,6 +1,6 @@
 import { parser } from './parser.v2';
 
-import { IMiddleware } from '@viatsyshyn/ts-rest';
+import { IMiddleware } from '@ts-awesome/rest';
 import { injectable } from 'inversify'
 
 @injectable()

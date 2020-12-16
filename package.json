@@ -9,18 +9,18 @@
     "test": "jest --env=node"
   },
   "devDependencies": {
-    "@viatsyshyn/ts-rest": "^0.2.8",
+    "@ts-awesome/rest": "^1.0.0",
     "inversify": "^5.0.0",
     "jest": "^26.1.0",
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
-    "@viatsyshyn/ts-rest": "^0.2.8",
+    "@ts-awesome/rest": "^1.0.0",
     "inversify": "^5.0.0"
   },
   "author": "Volodymyr Iatsyshyn <viatsyshyn@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@viatsyshyn/ts-simple-query": "^0.1.0"
+    "@ts-awesome/simple-query": "^1.0.0"
   }
 }

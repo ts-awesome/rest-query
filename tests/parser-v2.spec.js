@@ -1,4 +1,4 @@
-const {AND_OP} = require('@viatsyshyn/ts-simple-query');
+const {AND_OP} = require("@ts-awesome/simple-query");
 const {parser, ASC, DESC, Q_PARAM, COUNT_PARAM, LIMIT_PARAM, OFFSET_PARAM, ORDER_BY_PARAM} = require('../dist/parser.v2');
 
 describe('parser v2', () => {
