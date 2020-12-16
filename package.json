@@ -1,5 +1,5 @@
 {
-  "name": "@viatsyshyn/ts-rest-query",
+  "name": "@ts-awesome/rest-query",
   "version": "0.0.0",
   "description": "TypeScript REST Query parser",
   "main": "dist/index.js",
@@ -19,7 +19,7 @@
     "inversify": "^5.0.0"
   },
   "author": "Volodymyr Iatsyshyn <viatsyshyn@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@viatsyshyn/ts-simple-query": "^0.1.0"
   }
