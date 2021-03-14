@@ -23,7 +23,7 @@ export interface IQuerySource {
   [ORDER_BY_PARAM]?: string;
 }
 
-export function parseQuery(input: string = ''): ISimpleQuery | undefined {
+export function parseQuery(input = ''): ISimpleQuery | undefined {
   if (!input) {
     return undefined;
   }
@@ -74,8 +74,8 @@ export function parseOrderBy(sort?: string): IOrderBy[] | undefined {
 
 export function parsePaging(query: Record<'limit'|'offset', string>): {limit?: number, offset?: number} {
 
-  let offset = query[OFFSET_PARAM];
-  let limit = query[LIMIT_PARAM];
+  const offset = query[OFFSET_PARAM];
+  const limit = query[LIMIT_PARAM];
 
   const res: {limit?: number, offset?: number} = {};
   if (offset != null) {

@@ -76,27 +76,27 @@ function parseValue(value: string): any {
 }
 
 function parseFilter(query: any): IWhereInput | undefined {
-  let paramNames = Object.keys(query);
-  let filterParamNames = paramNames.filter(pName => NOT_FILTER_PARAMS.indexOf(pName) < 0);
+  const paramNames = Object.keys(query);
+  const filterParamNames = paramNames.filter(pName => NOT_FILTER_PARAMS.indexOf(pName) < 0);
 
   if (filterParamNames.length <= 0) {
     return;
   }
 
 
-  let res: IWhereInput = {
+  const res: IWhereInput = {
     op: AND,
     filter: {}
   };
 
   filterParamNames.forEach(pName => {
-    let paramValues: string[] = query[pName] instanceof Array ? query[pName] : [query[pName]];
+    const paramValues: string[] = query[pName] instanceof Array ? query[pName] : [query[pName]];
     paramValues.forEach(pValue => {
-      let separatorPosition = pValue.indexOf(OPERATION_VALUE_SEPARATOR);
+      const separatorPosition = pValue.indexOf(OPERATION_VALUE_SEPARATOR);
       let parsedValue, op: any;
       if (separatorPosition > 0) {
         op = pValue.slice(0, separatorPosition);
-        let value = pValue.slice(separatorPosition + 1, pValue.length + 1);
+        const value = pValue.slice(separatorPosition + 1, pValue.length + 1);
         parsedValue = parseValue(value);
       } else {
         op = OP_EQ;
@@ -113,14 +113,14 @@ function parseFilter(query: any): IWhereInput | undefined {
 }
 
 function parseSort(query: any): IOrderBy | undefined {
-  let sort: string = query[SORT_PARAM];
+  const sort: string = query[SORT_PARAM];
   if (!sort || sort.trim() === '') {
     return undefined;
   }
-  let res: IOrderBy = {};
+  const res: IOrderBy = {};
   sort.split(',')
     .forEach(condition => {
-      let fieldName = ['+', '-'].indexOf(condition[0]) < 0 ? condition : condition.substr(1);
+      const fieldName = ['+', '-'].indexOf(condition[0]) < 0 ? condition : condition.substr(1);
       res[fieldName] = condition[0] === '-' ? DESC : ASC;
     });
 
@@ -129,14 +129,14 @@ function parseSort(query: any): IOrderBy | undefined {
 
 function parsePaging(query: any): {limit?: number, offset?: number} {
 
-  let offset = query[OFFSET_PARAM];
-  let limit = query[LIMIT_PARAM];
+  const offset = query[OFFSET_PARAM];
+  const limit = query[LIMIT_PARAM];
 
   if (isEmpty(offset) && isEmpty(limit)) {
     return {};
   }
 
-  let res: any = {};
+  const res: any = {};
   if (!isEmpty(offset)) {
     res.offset = parseInt(offset);
     if (isNaN(res.offset)) {
@@ -158,12 +158,12 @@ function isEmpty(value: any): any {
   return value === null || value === undefined;
 }
 
-export function parser(query: string[]) {
+export function parser(query: string[]): ISelectQueryInput {
   let search: ISelectQueryInput = {
-    where: parseFilter(query)!
+    where: parseFilter(query)
   };
 
-  let countOnly = query[COUNT_PARAM] !== true && query[COUNT_PARAM] !== 'true';
+  const countOnly = query[COUNT_PARAM] !== true && query[COUNT_PARAM] !== 'true';
   if (countOnly) {
     search = {
       ...search,

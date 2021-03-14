@@ -6,13 +6,18 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint \"src/**/*.ts\"",
     "test": "jest --env=node"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.5",
     "@ts-awesome/rest": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
+    "eslint": "^7.22.0",
     "inversify": "^5.0.0",
-    "jest": "^26.1.0",
-    "typescript": "^3.9.5"
+    "jest": "^26.6.3",
+    "typescript": "^4.2.3"
   },
   "peerDependencies": {
     "@ts-awesome/rest": "^1.0.0",
@@ -21,6 +26,6 @@
   "author": "Volodymyr Iatsyshyn <viatsyshyn@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@ts-awesome/simple-query": "^1.0.0"
+    "@ts-awesome/simple-query": "^1.1.0"
   }
 }

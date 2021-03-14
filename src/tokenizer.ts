@@ -40,7 +40,7 @@ export function tokenizer(input: string): ITokenizer {
       return match.test(input[index]);
     },
     consume(check: ((c: string) => boolean)): string {
-      let start = index;
+      const start = index;
       while (index < input.length && check(input[index])) {
         index++;
       }
@@ -59,7 +59,7 @@ export function tokenizer(input: string): ITokenizer {
   }
 }
 
-export function space(x: string) {
+export function space(x: string): boolean {
   return /^\s+$/.test(x);
 }
 
@@ -165,7 +165,7 @@ export function parseNumber(tokenizer: ITokenizer): number {
   }
 
   let start = tokenizer.index;
-  if (tokenizer.test(/^[+\-]$/)) {
+  if (tokenizer.test(/^[+-]$/)) {
     tokenizer.next();
   }
 
