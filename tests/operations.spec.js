@@ -1,5 +1,5 @@
 const {parseOperation, tokenizer} = require('../dist/tokenizer');
-const {NEQ_OP, GTE_OP, GT_OP, LT_OP, LTE_OP, LIKE_OP, REF_OP} = require("@ts-awesome/simple-query");
+const {NEQ_OP, GTE_OP, GT_OP, LT_OP, LTE_OP, LIKE_OP, REF_OP, IN_OP, CONTAINS_OP} = require("@ts-awesome/simple-query");
 
 describe('operation parser', () => {
 
@@ -48,5 +48,15 @@ describe('operation parser', () => {
   it('like', async () => {
     expect(parseOperation(tokenizer('a~"1"'))).toStrictEqual({[LIKE_OP]: {a: '1'}});
     expect(parseOperation(tokenizer('a~b'))).toStrictEqual({[LIKE_OP]: {a: {[REF_OP]: 'b'}}});
+  });
+
+  it('in', async () => {
+    expect(parseOperation(tokenizer('a^[1]'))).toStrictEqual({[IN_OP]: {a: [1]}});
+    expect(parseOperation(tokenizer('a^["1", 2]'))).toStrictEqual({[IN_OP]: {a: ["1", 2]}});
+  });
+
+  it('contains', async () => {
+    expect(parseOperation(tokenizer('1 ^ a'))).toStrictEqual({[CONTAINS_OP]: {a: 1}});
+    expect(parseOperation(tokenizer('"1" ^ a'))).toStrictEqual({[CONTAINS_OP]: {a: "1"}});
   });
 });

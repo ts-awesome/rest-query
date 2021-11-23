@@ -1,4 +1,4 @@
-import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP} from "@ts-awesome/simple-query";
+import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP, IN_OP, CONTAINS_OP} from "@ts-awesome/simple-query";
 
 interface ITokenizer {
   readonly current: string;
@@ -76,7 +76,7 @@ export function parseIdentifier(tokenizer: ITokenizer): string {
     tokenizer.next();
     const identifier = tokenizer.consume(x => !/^`$/.test(x));
     if (!tokenizer.match('`')) {
-      throw tokenizer.error('Identifer expected to end with "`".');
+      throw tokenizer.error('Identifier expected to end with "`".');
     }
     tokenizer.next();
     return identifier
@@ -204,6 +204,37 @@ export function parseNumber(tokenizer: ITokenizer): number {
   return value * Math.pow(10, pow * sign);
 }
 
+function isArray(tokenizer: ITokenizer) {
+  return tokenizer.match('[');
+}
+
+export function parseArray(tokenizer: ITokenizer): unknown[] {
+  if (!isArray(tokenizer)) {
+    throw tokenizer.error('Array expected to start with [.');
+  }
+
+  const result: unknown[] = [];
+  tokenizer.next();
+  tokenizer.consume(space);
+  while (!tokenizer.match(']')) {
+    if (isNumber(tokenizer)){
+      result.push(parseNumber(tokenizer));
+    } else if (isString(tokenizer)) {
+      result.push(parseString(tokenizer));
+    } else {
+      throw tokenizer.error('Array expectes number or string literals');
+    }
+
+    tokenizer.consume(space);
+    if (tokenizer.match(',')) {
+      tokenizer.next();
+      tokenizer.consume(space);
+    }
+  }
+
+  return result;
+}
+
 function isOperator(tokenizer: ITokenizer) {
   return tokenizer.match('=')
     || tokenizer.match('!=')
@@ -212,6 +243,7 @@ function isOperator(tokenizer: ITokenizer) {
     || tokenizer.match('<')
     || tokenizer.match('<=')
     || tokenizer.match('~')
+    || tokenizer.match('^')
 }
 
 function parseOperator(tokenizer: ITokenizer): string {
@@ -246,6 +278,10 @@ function parseOperator(tokenizer: ITokenizer): string {
     tokenizer.next();
     return LIKE_OP;
   }
+  if (tokenizer.match('^')) {
+    tokenizer.next();
+    return "$in_has";
+  }
   throw tokenizer.error('Operator expected.');
 }
 
@@ -253,6 +289,28 @@ export function parseOperation(tokenizer: ITokenizer): unknown {
   tokenizer.consume(space);
   if (tokenizer.match('!')) {
     return parseUnary(tokenizer);
+  }
+
+  if (isNumber(tokenizer) || isString(tokenizer)) {
+    // 2 ^ a case
+    const left = isNumber(tokenizer) ? parseNumber(tokenizer) : parseString(tokenizer);
+    tokenizer.consume(space);
+    const op = parseOperator(tokenizer);
+    if (op !== '$in_has') {
+      throw tokenizer.error('Right operand expected to be boolean, number, string or identifier');
+    }
+    tokenizer.consume(space);
+
+    if (!isIdentifier(tokenizer)) {
+      throw tokenizer.error('Right operand expected to be identifier');
+    }
+
+    const right = parseIdentifier(tokenizer);
+    return {
+      [CONTAINS_OP]: {
+        [right]: left
+      }
+    };
   }
 
   if (!isIdentifier(tokenizer)) {
@@ -268,6 +326,20 @@ export function parseOperation(tokenizer: ITokenizer): unknown {
   }
   const op = parseOperator(tokenizer);
   tokenizer.consume(space);
+
+  if (op === '$in_has') {
+    // a ^ [1,2,3] case
+    if (!isIdentifier(tokenizer) && !isArray(tokenizer)) {
+      throw tokenizer.error('Right operand expected to be identifier or array');
+    }
+    const right = isIdentifier(tokenizer) ? {[REF_OP]: parseIdentifier(tokenizer)} : parseArray(tokenizer);
+    return {
+      [IN_OP]: {
+        [left]: right
+      }
+    }
+  }
+
   let right: unknown = null;
   if (isBoolean(tokenizer)) {
     right = parseBoolean(tokenizer)
