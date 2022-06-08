@@ -20,7 +20,7 @@
     "typescript": "^4.2.3"
   },
   "peerDependencies": {
-    "@ts-awesome/rest": "^1.0.0",
+    "@ts-awesome/rest": "^1.0.0 || ^2.0.0",
     "inversify": "^5.0.0"
   },
   "author": "Volodymyr Iatsyshyn <viatsyshyn@gmail.com>",
