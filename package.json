@@ -1,9 +1,13 @@
 {
   "name": "@ts-awesome/rest-query",
   "version": "0.0.0",
-  "description": "TypeScript REST Query parser",
+  "description": "TypeScript friendly query parser extension for Rest",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ts-awesome/rest-query"
+  },
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"src/**/*.ts\"",

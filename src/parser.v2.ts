@@ -3,8 +3,8 @@ import {parseExpression, tokenizer, space, parseIdentifier} from "./tokenizer";
 import {ISimpleQuery} from "@ts-awesome/simple-query";
 export {ISimpleQuery}
 
-import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP} from "@ts-awesome/simple-query";
-export {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP};
+import {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP, CONTAINS_OP, IN_OP} from "@ts-awesome/simple-query";
+export {REF_OP, AND_OP, OR_OP, NOT_OP, EQ_OP, LIKE_OP, LT_OP, LTE_OP, GT_OP, GTE_OP, NEQ_OP, CONTAINS_OP, IN_OP};
 
 export const Q_PARAM = 'q';
 export const COUNT_PARAM = 'count';
@@ -113,11 +113,15 @@ export function parser(input: IQuerySource = {}): IParsedQuery {
   const orderBy = parseOrderBy(input[ORDER_BY_PARAM]);
   const {limit, offset} = parsePaging(input as any);
 
-  return JSON.parse(JSON.stringify({
+  return clone({
     query,
     countOnly,
     orderBy,
     limit,
     offset,
-  }));
+  });
+}
+
+function clone<T>(x: T): T {
+  return JSON.parse(JSON.stringify(x));
 }
