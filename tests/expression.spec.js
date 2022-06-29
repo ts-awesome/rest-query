@@ -3,6 +3,13 @@ const {NOT_OP, LIKE_OP, AND_OP, OR_OP} = require("@ts-awesome/simple-query");
 
 describe('expression parser', () => {
 
+  it('null', async () => {
+    // has to be in root parentheses
+    const expr = '(a=NULL)';
+    expect(parseExpression(tokenizer(expr))).toStrictEqual({
+      a: null
+    });
+  });
   it('not', async () => {
     // has to be in root parentheses
     const expr = '(!(a~"1"))';

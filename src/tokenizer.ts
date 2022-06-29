@@ -63,6 +63,21 @@ export function space(x: string): boolean {
   return /^\s+$/.test(x);
 }
 
+export function isNull(tokenizer: ITokenizer): boolean {
+  return tokenizer.match('NULL');
+}
+
+export function parseNull(tokenizer: ITokenizer): null {
+  if (tokenizer.match('NULL')) {
+    tokenizer.next();
+    tokenizer.next();
+    tokenizer.next();
+    tokenizer.next();
+    return null;
+  }
+
+  throw tokenizer.error('NULL expected.');}
+
 function isIdentifier(tokenizer: ITokenizer): boolean {
   return tokenizer.test(/^[a-z_`]$/i);
 }
@@ -341,7 +356,9 @@ export function parseOperation(tokenizer: ITokenizer): unknown {
   }
 
   let right: unknown = null;
-  if (isBoolean(tokenizer)) {
+  if (isNull(tokenizer)) {
+    right = parseNull(tokenizer)
+  } else if (isBoolean(tokenizer)) {
     right = parseBoolean(tokenizer)
   } else if (isNumber(tokenizer)) {
     right = parseNumber(tokenizer);
@@ -350,7 +367,7 @@ export function parseOperation(tokenizer: ITokenizer): unknown {
   } else if (isIdentifier(tokenizer)) {
     right = {[REF_OP]: parseIdentifier(tokenizer)};
   } else {
-    throw tokenizer.error('Right operand expected to be boolean, number, string or identifier');
+    throw tokenizer.error('Right operand expected to be boolean, number, string, NULL or identifier');
   }
 
   if (op === EQ_OP) {
