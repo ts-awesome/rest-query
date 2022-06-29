@@ -76,7 +76,8 @@ export function parseNull(tokenizer: ITokenizer): null {
     return null;
   }
 
-  throw tokenizer.error('NULL expected.');}
+  throw tokenizer.error('NULL expected.');
+}
 
 function isIdentifier(tokenizer: ITokenizer): boolean {
   return tokenizer.test(/^[a-z_`]$/i);
