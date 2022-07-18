@@ -248,6 +248,8 @@ export function parseArray(tokenizer: ITokenizer): unknown[] {
     }
   }
 
+  tokenizer.next();
+
   return result;
 }
 

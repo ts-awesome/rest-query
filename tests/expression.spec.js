@@ -1,5 +1,5 @@
 const {parseExpression, tokenizer} = require('../dist/tokenizer');
-const {NOT_OP, LIKE_OP, AND_OP, OR_OP} = require("@ts-awesome/simple-query");
+const {NOT_OP, LIKE_OP, AND_OP, OR_OP, IN_OP} = require("@ts-awesome/simple-query");
 
 describe('expression parser', () => {
 
@@ -94,4 +94,14 @@ describe('expression parser', () => {
       ]
     });
   });
+
+  it('in operation', async () => {
+    const expr = '(`a` ^ [ "x", "y", "z"])';
+    expect(parseExpression(tokenizer(expr))).toStrictEqual({
+      [IN_OP]: {
+        a: ["x", "y", "z"]
+      }
+    });
+  })
+
 });
