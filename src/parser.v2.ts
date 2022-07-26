@@ -16,19 +16,30 @@ export const ASC = 'ASC';
 export const DESC = 'DESC';
 
 export interface IQuerySource {
-  [Q_PARAM]?: string;
+  [Q_PARAM]?: string | readonly string[];
   [COUNT_PARAM]?: 'true' | true | 1;
   [LIMIT_PARAM]?: string;
   [OFFSET_PARAM]?: string;
-  [ORDER_BY_PARAM]?: string;
+  [ORDER_BY_PARAM]?: string | readonly string[];
 }
 
-export function parseQuery(input = ''): ISimpleQuery | undefined {
-  if (!input) {
+export function parseQuery(query?: string | readonly string[]): ISimpleQuery | undefined {
+  if (Array.isArray(query)) {
+    query = query?.filter(x => x).join('&&');
+  }
+
+  // noinspection SuspiciousTypeOfGuard
+  if (typeof query !== "string") {
+    query = query?.toString();
+  }
+
+  query = query?.trim() ?? '';
+
+  if (!query.length) {
     return undefined;
   }
 
-  const t = tokenizer('(' + input.trim() + ')');
+  const t = tokenizer(query);
 
   return parseExpression(t) as ISimpleQuery;
 }
@@ -37,8 +48,19 @@ export interface IOrderBy {
   [column: string]: typeof ASC | typeof DESC;
 }
 
-export function parseOrderBy(sort?: string): IOrderBy[] | undefined {
-  if (!sort?.trim()) {
+export function parseOrderBy(sort?: string | readonly string[]): IOrderBy[] | undefined {
+  if (Array.isArray(sort)) {
+    sort = sort?.filter(x => x).join(',');
+  }
+
+  // noinspection SuspiciousTypeOfGuard
+  if (typeof sort !== "string") {
+    sort = sort?.toString();
+  }
+
+  sort = sort?.trim() ?? '';
+
+  if (!sort.length) {
     return undefined;
   }
 

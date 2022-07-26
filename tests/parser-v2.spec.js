@@ -19,6 +19,22 @@ describe('parser v2', () => {
     });
   });
 
+  it('compound query', async () => {
+    const query = {
+      [Q_PARAM]: ['a', '!b'],
+    };
+
+    expect(parser(query)).toStrictEqual({
+      countOnly: false,
+      query: {
+        [AND_OP]: [
+          {a: true},
+          {b: false},
+        ]
+      }
+    });
+  });
+
   it('count query', async () => {
     const query = {
       [COUNT_PARAM]: 'true'
@@ -32,6 +48,20 @@ describe('parser v2', () => {
   it('ordered query', async () => {
     const query = {
       [ORDER_BY_PARAM]: 'a-,b'
+    };
+
+    expect(parser(query)).toStrictEqual({
+      countOnly: false,
+      orderBy: [
+        {a:DESC},
+        {b:ASC},
+      ]
+    });
+  })
+
+  it('compound ordered query', async () => {
+    const query = {
+      [ORDER_BY_PARAM]: ['a-', 'b']
     };
 
     expect(parser(query)).toStrictEqual({
