@@ -39,7 +39,7 @@ export function parseQuery(query?: string | readonly string[]): ISimpleQuery | u
     return undefined;
   }
 
-  const t = tokenizer(query);
+  const t = tokenizer(`(${query})`);
 
   return parseExpression(t) as ISimpleQuery;
 }

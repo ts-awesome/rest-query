@@ -1,4 +1,4 @@
-const {AND_OP} = require("@ts-awesome/simple-query");
+const {AND_OP, OR_OP} = require("@ts-awesome/simple-query");
 const {parser, ASC, DESC, Q_PARAM, COUNT_PARAM, LIMIT_PARAM, OFFSET_PARAM, ORDER_BY_PARAM} = require('../dist/parser.v2');
 
 describe('parser v2', () => {
@@ -14,6 +14,27 @@ describe('parser v2', () => {
         [AND_OP]: [
           {a: true},
           {b: false},
+        ]
+      }
+    });
+  });
+
+  it('another query', async () => {
+    const query = {
+      [Q_PARAM]: '(project="a"||project="b")&&(category="c")',
+    };
+
+    expect(parser(query)).toStrictEqual({
+      countOnly: false,
+      query: {
+        [AND_OP]: [
+          {
+            [OR_OP]: [
+              {"project": "a"},
+              {"project": "b"},
+            ]
+          },
+          {category: "c"},
         ]
       }
     });

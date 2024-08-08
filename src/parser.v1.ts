@@ -106,7 +106,7 @@ function parseFilter(query: any): IWhereInput | undefined {
       if (<any>res.filter[pName] === undefined) {
         res.filter[pName] = {};
       }
-      res.filter[pName][op] = parsedValue;
+      (res.filter as any)[pName][op] = parsedValue;
     });
   });
   return res;

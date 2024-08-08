@@ -19,7 +19,6 @@
   "rules": {
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-empty-interface": "warn",
     "@typescript-eslint/ban-ts-comment": "warn"
