@@ -54,23 +54,24 @@ export function DescribeQueryParams(columns: readonly string[], defaultLimit = 1
   const names = columns.map(x => JSON.stringify(x)).join(', ');
   return {
     [LIMIT_PARAM]: {
-      description: 'Query limit, number',
+      description: 'Query limit',
       schema: {
-        type: 'number',
+        type: 'integer',
         minimum: 1,
         default: defaultLimit,
       },
     },
     [OFFSET_PARAM]: {
-      description: 'Query offset, number',
+      description: 'Query offset',
       schema: {
-        type: 'number',
+        type: 'integer',
         minimum: 0,
         default: 0,
       },
     },
     [ORDER_BY_PARAM]: {
-      description: `Query order, comma separated list of columns append '+' or '-' to indicate ASC or DESC ordering.\nAvailable columns ${names}`,
+      description: `Query order, comma separated list of columns append '+' or '-' to indicate ASC or DESC ordering.
+<br/>Available columns: ${names}`,
       schema: {
         type: 'string',
       },
@@ -82,7 +83,9 @@ export function DescribeQueryParams(columns: readonly string[], defaultLimit = 1
       },
     },
     [Q_PARAM]: {
-      description: `Query filter, supports arithmetic and logical operators.\nAvailable columns ${names}.\nMore info https://github.com/ts-awesome/rest-query?tab=readme-ov-file#query-language`,
+      description: `Query filter, supports arithmetic and logical operators.
+<br/>Available columns ${names}.
+<br/>More info <a href="https://github.com/ts-awesome/rest-query?tab=readme-ov-file#query-language">here</a>`,
       schema: {
         type: 'string',
       },
