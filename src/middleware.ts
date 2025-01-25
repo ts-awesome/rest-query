@@ -50,14 +50,15 @@ interface IOpenApiParameterArgs {
   }
 }
 
-export function DescribeQueryParams(columns: readonly string[]): Record<string, IOpenApiParameterArgs> {
+export function DescribeQueryParams(columns: readonly string[], defaultLimit = 10): Record<string, IOpenApiParameterArgs> {
+  const names = columns.map(x => JSON.stringify(x)).join(', ');
   return {
     [LIMIT_PARAM]: {
       description: 'Query limit, number',
       schema: {
         type: 'number',
         minimum: 1,
-        default: 10,
+        default: defaultLimit,
       },
     },
     [OFFSET_PARAM]: {
@@ -69,7 +70,7 @@ export function DescribeQueryParams(columns: readonly string[]): Record<string, 
       },
     },
     [ORDER_BY_PARAM]: {
-      description: `Query order, comma separated list of columns append '+' or '-' to indicate ASC or DESC ordering.\nAvailable columns ${columns}`,
+      description: `Query order, comma separated list of columns append '+' or '-' to indicate ASC or DESC ordering.\nAvailable columns ${names}`,
       schema: {
         type: 'string',
       },
@@ -81,7 +82,7 @@ export function DescribeQueryParams(columns: readonly string[]): Record<string, 
       },
     },
     [Q_PARAM]: {
-      description: `Query filter, supports arithmetic and logical operators.\nAvailable columns ${columns}\nMore info https://github.com/ts-awesome/rest-query?tab=readme-ov-file#query-language`,
+      description: `Query filter, supports arithmetic and logical operators.\nAvailable columns ${names}.\nMore info https://github.com/ts-awesome/rest-query?tab=readme-ov-file#query-language`,
       schema: {
         type: 'string',
       },
