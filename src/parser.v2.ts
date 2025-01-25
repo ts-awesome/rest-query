@@ -122,10 +122,15 @@ export function parsePaging(query: Record<'limit'|'offset', string>): {limit?: n
 }
 
 export interface IParsedQuery {
+  /**
+   * Compatible with TypeScript friendly SimpleQuery evaluator. Heavily inspired by Mongo Query Language
+   *
+   * More details https://github.com/ts-awesome/simple-query?tab=readme-ov-file#query-language
+   */
   query?: ISimpleQuery;
   limit?: number;
   offset?: number;
-  orderBy?: IOrderBy[];
+  orderBy?: readonly IOrderBy[];
   countOnly: boolean;
 }
 

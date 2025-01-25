@@ -48,20 +48,37 @@ Outputs:
 ```ts
 import {Route, httpGet, queryParam} from "@ts-awesome/rest";
 import {QueryParserMiddleware} from "@ts-awesome/rest-query";
+import {GetListSimpleQueryInput, GetListSimpleQuerySymbol} from "./middleware";
 
 @httpGet('/test', QueryParserMiddleware)
 export class TestRoute extends Route {
-  async handle(
-    @queryParam('query', true) query: ISimpleQuery | null,
-    @queryParam('orderBy', true) orderBy: IOrderBy[] | null,
-    @queryParam('offset', Number, true) offset: number | null,
-    @queryParam('limit', Number, true) limit: number | null,
-    @queryParam('countOnly', Boolean) countOnly: boolean,
-  ) {
-    // something important happens here
+  @inject(GetListSimpleQuerySymbol)
+  protected model!: GetListSimpleQueryInput<Model>
+
+  async handle() {
+    const data: Iterable<IModel>; // some data
+    const collecton = new Collection(data);
+
+    if (this.model.query) {
+      collection.where(this.model.query)
+    }
+    
+    if (this.model.countOnly) {
+      return this.json(collection.valueOf().length);
+    }
+    
+    if (this.model.orderBy) {
+      collection.sort(this.model.orderBy)
+    }
+    
+    const result = collecton.valueOf().slice(this.model.offset ?? 0, this.model.limit??10);
+
+    this.json(result);
   }
 }
 ```
+
+Use `DescribeQueryParams` a helper function to provide useful description via OpenApi schemas
 
 ## Query language
 
